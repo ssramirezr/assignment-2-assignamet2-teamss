@@ -4,19 +4,46 @@
 
 using namespace std;
 
-string findInGrammar(const string& subString, const map<string, string>& grammar){
-    
+string findInGrammar(const string& prod, const map<string, string>& grammar){
+    auto it = grammar.find(prod);
+    if(it != grammar.end()){
+        return it->second;
+    }else{
+        return "NA";
+    }
+}
+
+vector<pair<pair<int,int>, pair<int,int>>> generateSubstrings(int firstIdx, int length){
+    vector<pair<pair<int, int>, pair<int, int>>> substrings;
+    for(int i=1;i<length;i++){
+        int diff = length - i;
+        pair<int, int> first = {firstIdx, firstIdx+1};
+        pair<int, int> second = {firstIdx+1, firstIdx+diff};
+    }
+    return substrings;
 }
 
 bool cky(const string& input, const map<string, string>& grammar){
     int n = input.size();
     string T[n][n];
     for(int length = 1;length<=n;length++){
-        if(length > 1){
-            vector<pair<int,int>> subStrings;
-        }
-        for(int i = 0;i<n;i+=length){
-            //TBD: Encontrar forma de dividir la cadena en las distintas posibilidades para analizar.
+        for(int i = 0;i<n-length;i++){
+            string val;
+            if(length > 1){
+                vector<pair<pair<int,int>, pair<int,int>>> subStrings = {}; //generateSubstrings(i, length);
+                for(const pair<pair<int,int>, pair<int,int>> subStr: subStrings){
+                    int x1 = subStr.first.first;
+                    int y1 = subStr.first.first;
+                    int x2 = subStr.second.first;
+                    int y2 = subStr.second.first;
+                    string prod = T[x1][y1] + T[x2][y2];
+                    val = findInGrammar(prod, grammar);
+                    if(val != "NA") break;
+                }
+            }else{
+                val = findInGrammar(input.substr(i, 1), grammar);
+            }
+            T[i][i+length] = val;
         }
     }
     return 0;
