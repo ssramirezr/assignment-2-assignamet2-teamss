@@ -14,28 +14,31 @@ string findInGrammar(const string& prod, const map<string, string>& grammar){
 }
 
 vector<pair<pair<int,int>, pair<int,int>>> generateSubstrings(int firstIdx, int length){
-    vector<pair<pair<int, int>, pair<int, int>>> substrings;
+    vector<pair<pair<int, int>, pair<int, int>>> subStrings;
     for(int i=1;i<length;i++){
         int diff = length - i;
-        pair<int, int> first = {firstIdx, firstIdx+1};
-        pair<int, int> second = {firstIdx+1, firstIdx+diff};
+        pair<int, int> first = {firstIdx, firstIdx+i};
+        pair<int, int> second = {firstIdx+i, firstIdx+i+diff};
+        pair<pair<int, int>, pair<int, int>> couple = {first, second};
+        subStrings.push_back(couple);
     }
-    return substrings;
+    return subStrings;
 }
 
 bool cky(const string& input, const map<string, string>& grammar){
-    int n = input.size();
+    int n = input.size()+1;
     string T[n][n];
-    for(int length = 1;length<=n;length++){
-        for(int i = 0;i<n-length;i++){
+    for(int length = 1;length<n;length++){
+        int res = n-length;
+        for(int i = 0;i<res;i++){
             string val;
             if(length > 1){
-                vector<pair<pair<int,int>, pair<int,int>>> subStrings = {}; //generateSubstrings(i, length);
+                vector<pair<pair<int,int>, pair<int,int>>> subStrings = generateSubstrings(i, length);
                 for(const pair<pair<int,int>, pair<int,int>> subStr: subStrings){
                     int x1 = subStr.first.first;
-                    int y1 = subStr.first.first;
+                    int y1 = subStr.first.second;
                     int x2 = subStr.second.first;
-                    int y2 = subStr.second.first;
+                    int y2 = subStr.second.second;
                     string prod = T[x1][y1] + T[x2][y2];
                     val = findInGrammar(prod, grammar);
                     if(val != "NA") break;
@@ -46,7 +49,7 @@ bool cky(const string& input, const map<string, string>& grammar){
             T[i][i+length] = val;
         }
     }
-    return 0;
+    return T[0][n-1] == "S" ? true : false;
 }
 
 int main(){
@@ -64,7 +67,7 @@ int main(){
                 derivate = production.substr(2,1);
                 gramatica[derivate] = head;
             }else{
-                for(int i=2;i<production.size()-1;i++){
+                for(int i=2;i<production.size();i++){
                     if(production[i] == ' ') continue;
                     if(production[i+1] != ' '){
                         derivate = production.substr(i,2);
@@ -75,13 +78,13 @@ int main(){
                     gramatica[derivate] = head;
                 }
             }
-            while(strings--){
-                string x; cin >> x;
-                if(cky(x, gramatica)){
-                    cout << "yes" << endl;
-                }else{
-                    cout << "no" << endl;
-                }
+        }
+        while(strings--){
+            string x; cin >> x;
+            if(cky(x, gramatica)){
+                cout << "yes" << endl;
+            }else{
+                cout << "no" << endl;
             }
         }
     }
