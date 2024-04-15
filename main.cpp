@@ -1,10 +1,24 @@
 #include <iostream>
+#include <vector>
 #include <map>
 
 using namespace std;
 
-bool cky(const string& input, const map<string, string>& grammar){
+string findInGrammar(const string& subString, const map<string, string>& grammar){
+    
+}
 
+bool cky(const string& input, const map<string, string>& grammar){
+    int n = input.size();
+    string T[n][n];
+    for(int length = 1;length<=n;length++){
+        if(length > 1){
+            vector<pair<int,int>> subStrings;
+        }
+        for(int i = 0;i<n;i+=length){
+            //TBD: Encontrar forma de dividir la cadena en las distintas posibilidades para analizar.
+        }
+    }
     return 0;
 }
 
