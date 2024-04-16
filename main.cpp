@@ -49,6 +49,7 @@ bool cky(const string& input, const map<string, string>& grammar){
 
 int main(){
     int cases; cin >> cases;
+    string output;
     while(cases--){
         int gLines; cin >> gLines; //Lineas de gramática
         int strings; cin >> strings; //Cadenas a analizar
@@ -77,11 +78,14 @@ int main(){
         while(strings--){
             string x; cin >> x;
             if(cky(x, gramatica)){
-                cout << "yes" << endl;
+                // cout << "yes" << endl;
+                output += "yes\n";
             }else{
-                cout << "no" << endl;
+                // cout << "no" << endl;
+                output += "no\n";
             }
         }
     }
+    cout << output << endl;
     return 0;
 }
