@@ -6,19 +6,14 @@ using namespace std;
 
 string findInGrammar(const string& prod, const map<string, string>& grammar){
     auto it = grammar.find(prod);
-    if(it != grammar.end()){
-        return it->second;
-    }else{
-        return "NA";
-    }
+    return it != grammar.end() ? it->second : "NA";
 }
 
 vector<pair<pair<int,int>, pair<int,int>>> generateSubstrings(int firstIdx, int length){
     vector<pair<pair<int, int>, pair<int, int>>> subStrings;
     for(int i=1;i<length;i++){
-        int diff = length - i;
         pair<int, int> first = {firstIdx, firstIdx+i};
-        pair<int, int> second = {firstIdx+i, firstIdx+i+diff};
+        pair<int, int> second = {firstIdx+i, firstIdx+length};
         pair<pair<int, int>, pair<int, int>> couple = {first, second};
         subStrings.push_back(couple);
     }
